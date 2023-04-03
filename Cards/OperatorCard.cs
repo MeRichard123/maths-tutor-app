@@ -1,18 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace MathsTutor.Cards
 {
-    internal class OperatorCard: Card
+
+    public enum Operator
     {
+        [Description("+")]
+        ADD,
 
+        [Description("-")]
+        SUBTRACT,
 
-        public override string Show()
+        [Description("/")]
+        DIVIDE,
+
+        [Description("*")]
+        MULTIPLY,
+    }
+    public class OperatorCard: ICard
+    {
+        private Operator operator_;
+
+        public OperatorCard(Operator op)
         {
-            throw new NotImplementedException();
+            this.operator_ = op;
+        }
+
+        public Operator OperatorType
+        {
+            get { 
+                return operator_;
+            }
+        }
+
+        public string Show()
+        {
+            return operator_.ToString();
         }
     }
 }

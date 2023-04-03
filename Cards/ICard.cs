@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MathsTutor.Cards
 {
-    abstract class Card
+    interface ICard
     {
         public abstract string Show();
     }

@@ -1,17 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MathsTutor.Cards
+﻿namespace MathsTutor.Cards
 {
-    internal class NumberCard: Card
+    internal class NumberCard: ICard
     {
-
-        public override string Show()
+        private int operand;
+        public NumberCard(int operandConstr)
         {
-            throw new NotImplementedException();
+            if(CheckValidOperand(operandConstr))
+            {
+                operand = operandConstr;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid Operand must be in range 1-14");
+            }
+        }
+
+        private bool CheckValidOperand(int operand)
+        {
+            return this.operand > 1 && this.operand < 14;
+        }
+
+        public string Show()
+        {
+            return operand.ToString();
         }
     }
 }
