@@ -1,5 +1,6 @@
 ﻿using MathsTutor.Packs;
 using MathsTutor.Cards;
+using System.Diagnostics;
 
 namespace MathsTutor
 {
@@ -13,36 +14,99 @@ namespace MathsTutor
             this.cardPack.Shuffle();
         }
 
-        private bool SimpleParse(List<CardTest> equation, int userAnswer)
+        private int SimpleParse(List<CardTest> equation)
         {
             if (equation.Count != 3)
-                return false;
+                throw new IndexOutOfRangeException();
 
             switch (equation[1].Suit)
             {
                 case OperatorType.ADD:
-                    return equation[0].Value + equation[2].Value == userAnswer;
+                    return equation[0].Value + equation[2].Value;
                 case OperatorType.SUBTRACT:
-                    return equation[0].Value - equation[2].Value == userAnswer;
+                    return equation[0].Value - equation[2].Value;
                 case OperatorType.MULTIPLY:
-                    return equation[0].Value * equation[2].Value == userAnswer;
+                    return equation[0].Value * equation[2].Value;
                 case OperatorType.DIVIDE:
-                    return equation[0].Value / equation[2].Value == userAnswer;
+                    return equation[0].Value / equation[2].Value;
                 default:
-                    return false;
+                    throw new UnreachableException();
             }
         }
+        private int SimpleParse(int number, List<CardTest> equation)
+        {
+            if (equation.Count != 2)
+                throw new IndexOutOfRangeException();
+            
+            switch (equation[0].Suit)
+            {
+                case OperatorType.ADD:
+                    return number + equation[1].Value;
+                case OperatorType.SUBTRACT:
+                    return number - equation[1].Value;
+                case OperatorType.MULTIPLY:
+                    return number * equation[1].Value;
+                case OperatorType.DIVIDE:
+                    return number / equation[1].Value;
+                default:
+                    throw new UnreachableException();
+            }
+        }
+        private int SimpleParse(List<CardTest> equation, int number)
+        {
+            if (equation.Count != 2)
+                throw new IndexOutOfRangeException();
+            
+            switch (equation[1].Suit)
+            {
+                case OperatorType.ADD:
+                    return equation[0].Value + number;
+                case OperatorType.SUBTRACT:
+                    return equation[0].Value - number;
+                case OperatorType.MULTIPLY:
+                    return equation[0].Value * number;
+                case OperatorType.DIVIDE:
+                    return equation[0].Value / number;
+                default:
+                    throw new UnreachableException();
+            }
+        }
+
+        private int ComplexParse(List<CardTest> equation)
+        {
+            if (equation.Count != 5)
+                throw new IndexOutOfRangeException();
+
+            OperatorType operatorOne = equation[1].Suit;
+            OperatorType operatorTwo = equation[3].Suit;
+
+            int evaluateFirst;
+
+            if((int)operatorOne > (int)operatorTwo)
+            {
+                List<CardTest> simpleEquation = equation.GetRange(0, 3);
+                evaluateFirst = SimpleParse(simpleEquation);
+                return SimpleParse(evaluateFirst, equation.GetRange(3, 2));
+            }
+            else
+            {
+                List<CardTest> simpleEquation = equation.GetRange(2, 3);
+                evaluateFirst = SimpleParse(simpleEquation);
+                return SimpleParse(equation.GetRange(0, 2), evaluateFirst);
+            }
+        }
+
+
 
         private bool EvaluateExpression(List<CardTest> equation, int userAnswer)
         {
             switch (equation.Count)
             {
                 case 3:
-                    return SimpleParse(equation, userAnswer);
+                    return userAnswer == SimpleParse(equation);
 
                 case 5:
-                    Console.WriteLine("Bidmas is not implemented yet");
-                    throw new NotImplementedException();
+                    return userAnswer == ComplexParse(equation);
             }
             return false;
         }
@@ -58,7 +122,7 @@ namespace MathsTutor
             {
                 char OperatorOne = equation[1].GetDescriptor(equation[1].Suit);
                 char OperatorTwo = equation[3].GetDescriptor(equation[3].Suit);
-                return $"\n{equation[0].Value} {OperatorOne} {equation[2].Value} {OperatorTwo} {equation[4].Value}";
+                return $"\n{equation[0].Value} {OperatorOne} {equation[2].Value} {OperatorTwo} {equation[4].Value} =";
             }
             else
                 return "Ivalid Equation Returned";
@@ -89,8 +153,9 @@ namespace MathsTutor
         private void DealCardsAndCalculate(int amount)
         {
             List<CardTest> equationToSolve = new List<CardTest>();
-
+            
             equationToSolve.AddRange(this.cardPack.Deal(amount));
+
             Console.WriteLine(DisplayEquation(equationToSolve));
             Console.WriteLine("Enter your Answer...");
             Console.Write("> ");

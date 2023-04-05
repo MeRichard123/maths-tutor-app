@@ -5,14 +5,14 @@ namespace MathsTutor.Cards
     // store the suit types of the card
     public enum OperatorType
     {
-        [Description("+")]
-        ADD = 1,
         [Description("-")]
-        SUBTRACT = 2,
-        [Description("*")]
-        MULTIPLY = 3,
+        SUBTRACT = 1,
+        [Description("+")]
+        ADD = 2,
         [Description("/")]
-        DIVIDE = 4,
+        DIVIDE = 3,
+        [Description("*")]
+        MULTIPLY = 4,
     }
 
     // store the different faces.
