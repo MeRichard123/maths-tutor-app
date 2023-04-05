@@ -13,17 +13,20 @@ namespace MathsTutor
             this.cardPack.Shuffle();
         }
 
-        private bool EvaluateExpression(List<Card> equation, int userAnswer)
+        private (bool,int) EvaluateExpression(List<Card> equation, int userAnswer)
         {
+            int correctAnswer;
             switch (equation.Count)
             {
                 case 3:
-                    return userAnswer == SimpleParse(equation);
-
+                    correctAnswer = SimpleParse(equation);
+                    return (userAnswer == correctAnswer, correctAnswer);
                 case 5:
-                    return userAnswer == ComplexParse(equation);
+                    correctAnswer = ComplexParse(equation);
+                    return (userAnswer == correctAnswer,correctAnswer);
+                default:
+                    throw new ArgumentException("Invalid Equation Format");
             }
-            return false;
         }
 
         private string DisplayEquation(List<Card> equation)
@@ -73,31 +76,36 @@ namespace MathsTutor
 
             Console.WriteLine(DisplayEquation(equationToSolve));
             Console.WriteLine("Enter your Answer...");
-            Console.Write("> ");
-            string? answer = Console.ReadLine();
+            string? answer = null;
+
             int numberValue;
             while (true)
             {
+                Console.Write("> ");
+                answer = Console.ReadLine();
                 if (int.TryParse(answer, out numberValue))
                 {
-                    if(EvaluateExpression(equationToSolve, numberValue))
+                    (bool, int) EvalExpression = EvaluateExpression(equationToSolve, numberValue);
+                    if (EvalExpression.Item1)
                     {
                         Console.WriteLine("Yay you got it!");
                         break;
                     }
                     else
                     {
-                        Console.WriteLine("That is the wrong answer");
+                        Console.WriteLine("That is the wrong answer.");
+                        Console.WriteLine("The Correct Answer was: ");
+                        Console.Write(EvalExpression.Item2);
                         break;
                     }
                 }
             }
-
         }
 
         public void Play()
         {
             bool gameRunning = true;
+            Console.WriteLine("Please Round divisions to the nearest whole number");
             while (gameRunning)
             {
                 int menuOption = ShowMenu();
@@ -106,6 +114,7 @@ namespace MathsTutor
                 {
                     case 1:
                         Tutorial tutorial = new Tutorial();
+                        tutorial.StartTutorial();
                         break;
                     case 2:
                         DealCardsAndCalculate(3);
