@@ -4,10 +4,10 @@ namespace MathsTutor.Packs
 {
     internal interface IPack
     {
-        void Shuffle(ref List<CardTest> cards);
+        void Shuffle(ref List<Card> cards);
 
-        void Display(List<CardTest> cards);
+        void Display(List<Card> cards);
 
-        List<CardTest> Deal(in int amount);
+        List<Card> Deal(in int amount);
     }
 }

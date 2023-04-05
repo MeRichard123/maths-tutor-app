@@ -33,14 +33,14 @@ namespace MathsTutor.Cards
         THIRTEEN = 13,
     }
 
-    public class CardTest : ICard
+    public class Card : ICard
     {
         // private varaibles encapsulated
         private OperatorType suitValue;
         private NumberValues cardValue;
 
         // constructor for card 
-        public CardTest(NumberValues value, OperatorType suit)
+        public Card(NumberValues value, OperatorType suit)
         {
             suitValue = suit;
             cardValue = value;

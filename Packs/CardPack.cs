@@ -2,12 +2,12 @@
 
 namespace MathsTutor.Packs
 {
-    internal class TestPack: Pack, IPack
+    internal class CardPack: Pack, IPack
     {
-        static private List<CardTest> cards = new List<CardTest>();
-        static private List<CardTest> discard = new List<CardTest>();
+        static private List<Card> cards = new List<Card>();
+        static private List<Card> discard = new List<Card>();
 
-        public TestPack()
+        public CardPack()
         {
             foreach (OperatorType suit in Enum.GetValues(typeof(OperatorType)))
             {
@@ -16,7 +16,7 @@ namespace MathsTutor.Packs
                 foreach (NumberValues face in Enum.GetValues(typeof(NumberValues)))
                 {
                     // create a card using the face and suit
-                    CardTest card = new CardTest(face, suit);
+                    Card card = new Card(face, suit);
                     // add the card to the pack.
                     cards.Add(card);
                 }
@@ -27,9 +27,9 @@ namespace MathsTutor.Packs
             base.Shuffle(ref cards);
         }
 
-        public override List<CardTest> Deal(in int amount = 1)
+        public override List<Card> Deal(in int amount = 1)
         {
-            List<CardTest> _deltCards = new List<CardTest>();
+            List<Card> _deltCards = new List<Card>();
             if (cards.Count > amount)
             {
                 for (int i = 0; i < amount; i++)
