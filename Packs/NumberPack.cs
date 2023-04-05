@@ -2,42 +2,42 @@
 
 namespace MathsTutor.Packs
 {
-    internal class OperatorPack : Pack, IPack
+    internal class NumberPack : Pack, IPack
     {
         /*
-        static private List<ICard> operators = new List<ICard>();
+        static private List<ICard> numbers = new List<ICard>();
         static private List<ICard> discard = new List<ICard>();
 
-        public OperatorPack() {
-           foreach (Operator op in Enum.GetValues(typeof(Operator)))
+        public NumberPack() {
+           for (int n = 1; n < 14; n++)
             {
-                OperatorCard opCard = new OperatorCard(op);
-                operators.Add(opCard);
+                NumberCard numberCard = new NumberCard(n);
+                numbers.Add(numberCard);
             }
         }
 
         public void Shuffle(){
-            base.Shuffle(ref operators);
+            base.Shuffle(ref numbers);
         }
 
         public override List<ICard> Deal(in int amount = 1)
         {
             List<ICard> _deltCards = new List<ICard>();
-            if (operators.Count > amount)
+            if (numbers.Count > amount)
             {
                 for (int i = 0; i < amount; i++)
                 {
-                    _deltCards.Add(operators[i]);
-                    operators.RemoveAt(i);
+                    _deltCards.Add(numbers[i]);
+                    numbers.RemoveAt(i);
                 }
             }
             else
             {
-                operators.AddRange(discard);
+                numbers.AddRange(discard);
                 Shuffle();
                 Deal(amount);
             }
             return _deltCards;
-        } */
+        }*/
     }
 }

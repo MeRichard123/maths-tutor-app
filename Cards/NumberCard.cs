@@ -17,7 +17,7 @@
 
         private bool CheckValidOperand(int operand)
         {
-            return this.operand > 1 && this.operand < 14;
+            return this.operand >= 1 && this.operand < 14;
         }
 
         public string Show()
