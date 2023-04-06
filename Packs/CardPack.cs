@@ -32,17 +32,14 @@ namespace MathsTutor.Packs
             List<Card> _deltCards = new List<Card>();
             if (cards.Count > amount)
             {
-                for (int i = 0; i < amount; i++)
+                for (int i = 0; i <= amount-1; i++)
                 {
                     _deltCards.Add(cards[i]);
+                    discard.Add(cards[i]);
                     cards.RemoveAt(i);
+                    cards.AddRange(discard);
+                    discard.Clear();
                 }
-            }
-            else
-            {
-                cards.AddRange(discard);
-                Shuffle();
-                Deal(amount);
             }
             return _deltCards;
         }

@@ -23,7 +23,7 @@ namespace MathsTutor.Packs
         {
             foreach (var card in cards)
             {
-
+                Console.Write($"{card.Show()} ");
             }
         }
 

@@ -1,6 +1,4 @@
-﻿using MathsTutor.Packs;
-
-namespace MathsTutor
+﻿namespace MathsTutor
 {
     internal class Program
     {

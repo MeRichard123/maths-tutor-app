@@ -53,13 +53,13 @@ namespace MathsTutor
             Console.WriteLine("2. Deal 3 Cards");
             Console.WriteLine("3. Deal 5 Cards");
             Console.WriteLine("4. Quit");
+            string? option = null;
+            int optionValue;
             while (true)
             {
                 Console.Write("> ");
-                string? option = Console.ReadLine();
-                if (option is not null)
-                {
-                    int optionValue = int.Parse(option);
+                option = Console.ReadLine();
+                if (option is not null && int.TryParse(option, out optionValue)){
                     if (optionValue >= 1 && optionValue < 5)
                     {
                         return optionValue;
@@ -73,7 +73,6 @@ namespace MathsTutor
             List<Card> equationToSolve = new List<Card>();
             
             equationToSolve.AddRange(this.cardPack.Deal(amount));
-
             Console.WriteLine(DisplayEquation(equationToSolve));
             Console.WriteLine("Enter your Answer...");
             string? answer = null;
@@ -88,7 +87,7 @@ namespace MathsTutor
                     (bool, int) EvalExpression = EvaluateExpression(equationToSolve, numberValue);
                     if (EvalExpression.Item1)
                     {
-                        Console.WriteLine("Yay you got it!");
+                        Console.WriteLine("Yay you got the answer right!");
                         break;
                     }
                     else
@@ -105,7 +104,7 @@ namespace MathsTutor
         public void Play()
         {
             bool gameRunning = true;
-            Console.WriteLine("Please Round divisions to the nearest whole number");
+            Console.WriteLine("For divisions give the floor value, how many times it goes in as a whole number");
             while (gameRunning)
             {
                 int menuOption = ShowMenu();

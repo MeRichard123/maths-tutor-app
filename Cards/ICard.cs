@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MathsTutor.Cards
+﻿namespace MathsTutor.Cards
 {
     interface ICard
     {
-        public abstract string Show();
+        abstract string Show();
+        abstract int Value { get; set; }
+        abstract OperatorType Suit { get; set; }
+        abstract char GetDescriptor(OperatorType opType);
     }
 }

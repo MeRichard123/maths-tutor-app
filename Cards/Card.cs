@@ -9,10 +9,10 @@ namespace MathsTutor.Cards
         SUBTRACT = 1,
         [Description("+")]
         ADD = 2,
-        [Description("/")]
-        DIVIDE = 3,
         [Description("*")]
-        MULTIPLY = 4,
+        MULTIPLY = 3,
+        [Description("/")]
+        DIVIDE = 4,
     }
 
     // store the different faces.
@@ -48,7 +48,7 @@ namespace MathsTutor.Cards
 
         public string Show()
         {
-            return $"{Value}, {(int)Suit}, ";
+            return $"({Value}, {(int)Suit}), ";
         }
 
         // validation method for creating a card ensuring it isn't too big. 

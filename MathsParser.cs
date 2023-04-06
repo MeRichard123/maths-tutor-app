@@ -5,6 +5,27 @@ namespace MathsTutor
 {
     internal abstract class MathsParser
     {
+        public void GetRemainder(int ValueOne, int ValueTwo)
+        {
+            if (ValueOne % ValueTwo != 0)
+            {
+                int remainder = ValueOne % ValueTwo;
+                Console.Write("What is the Remainer of the Division? ");
+                string? remainderInput = Console.ReadLine();
+                int value;
+                if (remainderInput is not null && int.TryParse(remainderInput, out value))
+                {
+                    if (value == remainder)
+                        Console.WriteLine("That's Right!\n");
+                    else
+                        Console.WriteLine($"The Correct Remainer is {remainder}\n");
+                }
+                else
+                {
+                    Console.WriteLine($"The Correct Remainer is {remainder}\n");
+                }
+            }
+        }
         public int SimpleParse(List<Card> equation)
         {
             if (equation.Count != 3)
@@ -19,8 +40,9 @@ namespace MathsTutor
                 case OperatorType.MULTIPLY:
                     return equation[0].Value * equation[2].Value;
                 case OperatorType.DIVIDE:
-                    double division = equation[0].Value / equation[2].Value; 
-                    return (int)Math.Round(division, 0);
+                    decimal division = equation[0].Value / equation[2].Value;
+                    GetRemainder(equation[0].Value, equation[2].Value); 
+                    return (int)Math.Floor(division);
                 default:
                     throw new UnreachableException();
             }
@@ -39,7 +61,9 @@ namespace MathsTutor
                 case OperatorType.MULTIPLY:
                     return number * equation[1].Value;
                 case OperatorType.DIVIDE:
-                    return number / equation[1].Value;
+                    decimal division = number / equation[1].Value;
+                    GetRemainder(number, equation[1].Value);
+                    return (int)Math.Floor(division);;
                 default:
                     throw new UnreachableException();
             }
@@ -58,7 +82,9 @@ namespace MathsTutor
                 case OperatorType.MULTIPLY:
                     return equation[0].Value * number;
                 case OperatorType.DIVIDE:
-                    return equation[0].Value / number;
+                    double division = equation[0].Value / number;
+                    GetRemainder(equation[0].Value, number); 
+                    return (int)Math.Floor(division);
                 default:
                     throw new UnreachableException();
             }
@@ -81,6 +107,7 @@ namespace MathsTutor
             // if it's just plus and minus then we need to just go left to right. 
             if(((operatorOne == OperatorType.ADD || operatorOne == OperatorType.SUBTRACT) 
                 && (operatorTwo == OperatorType.ADD || operatorTwo == OperatorType.SUBTRACT))
+                || (operatorOne == operatorTwo)
                 || (int)operatorOne > (int)operatorTwo)
             {
                 List<Card> simpleEquation = equation.GetRange(0, 3);
