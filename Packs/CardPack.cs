@@ -26,7 +26,10 @@ namespace MathsTutor.Packs
         public void Shuffle(){
             base.Shuffle(ref cards);
         }
-
+        
+        // Method overriding or Dynamic Polymorphism is sort of used here for the deal method
+        // but it would make it more useful if there were multiple packs and each implementation is 
+        // slightly different. 
         public override List<Card> Deal(in int amount = 1)
         {
             List<Card> _deltCards = new List<Card>();

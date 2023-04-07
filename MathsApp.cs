@@ -6,6 +6,9 @@ namespace MathsTutor
     internal class MathsApp: MathsParser
     {
         private CardPack cardPack;
+        private int correctAnswers = 0;
+        private int simpleQuestionsAsked = 0;
+        private int complexQuestionsAsked = 0;
 
         public MathsApp()
         {
@@ -87,6 +90,7 @@ namespace MathsTutor
                     (bool, int) EvalExpression = EvaluateExpression(equationToSolve, numberValue);
                     if (EvalExpression.Item1)
                     {
+                        correctAnswers++;
                         Console.WriteLine("Yay you got the answer right!");
                         break;
                     }
@@ -112,16 +116,20 @@ namespace MathsTutor
                 switch (menuOption)
                 {
                     case 1:
-                        Tutorial tutorial = new Tutorial();
-                        tutorial.StartTutorial();
+                        Tutorial.StartTutorial();
                         break;
                     case 2:
+                        simpleQuestionsAsked++;
                         DealCardsAndCalculate(3);
                         break;
                     case 3:
+                        complexQuestionsAsked++;
                         DealCardsAndCalculate(5);
                         break;
                     case 4:
+                        Console.WriteLine($"Well Done you got {correctAnswers} questions right!");
+                        Console.WriteLine($"Out of the total {simpleQuestionsAsked+complexQuestionsAsked}");
+                        Console.WriteLine($"We asked {simpleQuestionsAsked} Simple Questions and {complexQuestionsAsked} Complex Questions.");
                         gameRunning = false;
                         break;
                 }

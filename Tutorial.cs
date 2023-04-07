@@ -1,8 +1,8 @@
 ﻿namespace MathsTutor
 {
-    internal class Tutorial
+    internal static class Tutorial
     {
-        public List<string> TutorialSteps = new List<string>()
+        public static List<string> TutorialSteps = new List<string>()
         {
             "Hello Fellow Maths Enthusiasts!",
             "Welcome to your maths tutor! ",
@@ -12,7 +12,7 @@
             "- If you pick 5 remember BODMAS",
             "GOOD LUCK!! \n",
         };
-        public void StartTutorial()
+        public static void StartTutorial()
         {
             foreach (string step in TutorialSteps)
             {

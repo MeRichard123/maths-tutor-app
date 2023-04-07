@@ -26,6 +26,8 @@ namespace MathsTutor
                 }
             }
         }
+        // Overloading of the SimpleParse Method, this is Static or Compile Time Polymorphism 
+        // this lets me use the same method on different parameters slightly differently.
         public int SimpleParse(List<Card> equation)
         {
             if (equation.Count != 3)
@@ -104,7 +106,9 @@ namespace MathsTutor
 
             // This is ok since we don't generate anything more than 3 numbers and two operators
             // but if we needed more then it might be better to do some form of RPN.
-            // if it's just plus and minus then we need to just go left to right. 
+            // if it's just plus and minus then we need to just go left to right.
+            // We also go left to right of both operators are the same or the left one has 
+            // more precendence than the right. 
             if(((operatorOne == OperatorType.ADD || operatorOne == OperatorType.SUBTRACT) 
                 && (operatorTwo == OperatorType.ADD || operatorTwo == OperatorType.SUBTRACT))
                 || (operatorOne == operatorTwo)

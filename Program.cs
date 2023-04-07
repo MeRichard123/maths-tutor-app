@@ -9,7 +9,7 @@
 
             app.Play();
 
-            Console.WriteLine("Good Bye User!");
+            Console.WriteLine("\nGood Bye User!");
 
         }
     }
