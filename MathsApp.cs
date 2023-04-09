@@ -1,5 +1,7 @@
 ﻿using MathsTutor.Packs;
 using MathsTutor.Cards;
+using System.Text;
+using System.Diagnostics;
 
 namespace MathsTutor
 {
@@ -9,14 +11,68 @@ namespace MathsTutor
         private int correctAnswers = 0;
         private int simpleQuestionsAsked = 0;
         private int complexQuestionsAsked = 0;
+        private string statsFileName;    
 
         public MathsApp()
         {
             this.cardPack = new CardPack();
             this.cardPack.Shuffle();
+            this.statsFileName = this.FileHandler();
         }
 
-        private (bool,int) EvaluateExpression(List<Card> equation, int userAnswer)
+        private string FileHandler()
+        {
+            string currentDir = Directory.GetCurrentDirectory();
+            // null checks 
+            if (Directory.GetParent(currentDir) is not null && currentDir is not null)
+            {
+                if (Directory.GetParent(currentDir)?.Parent is not null)
+                {
+                    // get the current file path
+                    string path = Directory.GetParent(currentDir).Parent.FullName;
+                    // split and remove the \bin from the directory
+                    List<string> formatPath = path.Split('\\').ToList<String>();
+                    formatPath.RemoveAt(formatPath.Count - 1);
+                    string fileName = String.Join("\\", formatPath) + "\\Stats.txt";
+                    try
+                    {
+                        if (File.Exists(fileName))
+                        {
+                            return fileName;
+                        }
+
+                        using (FileStream fs = File.Create(fileName))
+                        {
+                            Byte[] title = new UTF8Encoding(true).GetBytes("Statistics\n");
+                            fs.Write(title, 0, title.Length);
+                        }
+                        return fileName;
+                    }
+                    catch (Exception ex) {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+            }
+            throw new UnreachableException();
+        }
+        
+        private void WriteStatsToFile(string score)
+        {
+            try
+            {
+                FileStream fs = new FileStream(this.statsFileName, FileMode.Append, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+                string currentTime = DateTime.Now.ToString("G");
+                sw.WriteLine($"{currentTime} - {score}\n");
+                sw.Close();
+
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public (bool,int) EvaluateExpression(List<Card> equation, int userAnswer)
         {
             int correctAnswer;
             switch (equation.Count)
@@ -32,7 +88,7 @@ namespace MathsTutor
             }
         }
 
-        private string DisplayEquation(List<Card> equation)
+        public string DisplayEquation(List<Card> equation)
         {
             if (equation.Count == 3)
             {
@@ -127,10 +183,12 @@ namespace MathsTutor
                         DealCardsAndCalculate(5);
                         break;
                     case 4:
-                        Console.WriteLine($"Well Done you got {correctAnswers} questions right!");
+                        Console.WriteLine($"\nWell Done you got {correctAnswers} questions right!\n");
                         Console.WriteLine($"Out of the total {simpleQuestionsAsked+complexQuestionsAsked}");
                         Console.WriteLine($"We asked {simpleQuestionsAsked} Simple Questions and {complexQuestionsAsked} Complex Questions.");
                         gameRunning = false;
+                        string userScore = $"{correctAnswers}/{simpleQuestionsAsked+complexQuestionsAsked}, {simpleQuestionsAsked} Simple and {complexQuestionsAsked} Complex";
+                        WriteStatsToFile(userScore);
                         break;
                 }
             }     
