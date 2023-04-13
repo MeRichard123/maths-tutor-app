@@ -14,9 +14,11 @@
         };
         public static void StartTutorial()
         {
+            // iterate over the steps array and print it to console. 
             foreach (string step in TutorialSteps)
             {
                 Console.WriteLine(step + "\n");
+                // wait 2.5 seconds before the next step.
                 Thread.Sleep(2500);
             }
         }

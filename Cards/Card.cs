@@ -2,7 +2,8 @@
 
 namespace MathsTutor.Cards
 {
-    // store the suit types of the card
+    // store the suit types of the card the operator
+
     public enum OperatorType
     {
         [Description("-")]
@@ -32,7 +33,8 @@ namespace MathsTutor.Cards
         TWELVE = 12,
         THIRTEEN = 13,
     }
-
+    
+    // define a card implemeting the ICard interface
     public class Card : ICard
     {
         // private varaibles encapsulated
@@ -93,7 +95,8 @@ namespace MathsTutor.Cards
                 }
             }
         }
-
+        
+        // return the string representation of the operator
         public char GetDescriptor(OperatorType opType)
         {
             switch (opType)

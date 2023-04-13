@@ -22,11 +22,13 @@ namespace MathsTutor.Packs
                 }
             }
         }
-        
+       
+        // Getter for the cards mainly for the Testing class
         public List<Card> GetCards() {
             return cards; 
         }
 
+        // shuffle calling the base shuffle
         public void Shuffle(){
             base.Shuffle(ref cards);
         }
@@ -36,12 +38,17 @@ namespace MathsTutor.Packs
         // slightly different. 
         public override List<Card> Deal(in int amount = 1)
         {
+            // create a list to hold the cards
             List<Card> _deltCards = new List<Card>();
+            // deal making sure there's enough cards and you want an odd number
             if (cards.Count > amount && amount % 2 != 0)
             {
                 for (int i = 0; i <= amount-1; i++)
                 {
+                    // add cards to the return list
                     _deltCards.Add(cards[i]);
+                    // add to discard temporarily and then 
+                    // add back on the end. 
                     discard.Add(cards[i]);
                     cards.RemoveAt(i);
                     cards.AddRange(discard);
