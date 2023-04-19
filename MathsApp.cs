@@ -106,22 +106,53 @@ namespace MathsTutor
         /// <param name="score">
         ///     The score we are writing
         /// </param>
-        private void WriteStatsToFile(string score)
+        private void WriteStatsToFile(string score, string name)
         {
             try
             {
+                name = name.ToLower();
                 // create a FileStream so we can open in Append Mode
                 FileStream fs = new FileStream(this.statsFileName, FileMode.Append, FileAccess.Write);
                 StreamWriter sw = new StreamWriter(fs);
                 // get current date ans store when the user got that score. 
                 string currentTime = DateTime.Now.ToString("G");
-                sw.WriteLine($"{currentTime} - {score}\n");
+                sw.WriteLine($"{name} - {currentTime} - {score}");
                 // discard the stream writer
                 sw.Close();
 
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+            }
+        }
+
+        /// <summary>
+        ///     Display the leaderboard for the user if one is entered 
+        ///     and the whole leaderboard if there is none entered.
+        /// </summary>
+        /// <param name="name">
+        ///     user name lookup 
+        /// </param>
+        public void ShowStats(string? name)
+        {
+            string[] stats = File.ReadAllLines(statsFileName);
+            if (name is not null && name != "")
+            {
+                Console.WriteLine($"\nStatistics for {name}\n");
+                foreach (string stat in stats)
+                {
+                    if (stat.StartsWith(name.ToLower()))
+                    {
+                        Console.WriteLine(stat);
+                    }
+                }
+            }
+            else
+            {
+                foreach (string stat in stats)
+                {
+                    Console.WriteLine(stat);
+                }
             }
         }
         
@@ -294,8 +325,16 @@ namespace MathsTutor
                         Console.WriteLine($"Out of the total {simpleQuestionsAsked+complexQuestionsAsked}");
                         Console.WriteLine($"We asked {simpleQuestionsAsked} Simple Questions and {complexQuestionsAsked} Complex Questions.");
                         gameRunning = false;
-                        string userScore = $"{correctAnswers}/{simpleQuestionsAsked+complexQuestionsAsked}, {simpleQuestionsAsked} Simple and {complexQuestionsAsked} Complex";
-                        WriteStatsToFile(userScore);
+
+                        Console.Write("What is your name ");
+                        string? name = Console.ReadLine();
+
+                        if (name is not null)
+                        {
+                            string userScore = $"{correctAnswers}/{simpleQuestionsAsked + complexQuestionsAsked}, {simpleQuestionsAsked} Simple and {complexQuestionsAsked} Complex";
+                            WriteStatsToFile(userScore, name);
+                        }
+
                         break;
                 }
             }     
