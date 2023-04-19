@@ -15,7 +15,7 @@ namespace MathsTutor
         /// <param name="ValueTwo">
         ///     Integer Value for operand two
         /// </param>
-        public void GetRemainder(int ValueOne, int ValueTwo)
+        protected void GetRemainder(int ValueOne, int ValueTwo)
         {
             if (ValueOne % ValueTwo != 0)
             {
@@ -43,7 +43,7 @@ namespace MathsTutor
         // Overloading of the SimpleParse Method, this is Static or Compile Time Polymorphism 
         // this lets me use the same method on different parameters slightly differently.
         // Acts like a parser we perform operations in different orders by overloading. 
-        public int SimpleParse(List<Card> equation)
+        protected int SimpleParse(List<Card> equation)
         {
             if (equation.Count != 3)
                 throw new IndexOutOfRangeException();
@@ -66,7 +66,7 @@ namespace MathsTutor
                     throw new UnreachableException();
             }
         }
-        public int SimpleParse(int number, List<Card> equation)
+        protected int SimpleParse(int number, List<Card> equation)
         {
             if (equation.Count != 2)
                 throw new IndexOutOfRangeException();
@@ -91,7 +91,7 @@ namespace MathsTutor
         }
             
         // apply in different orders 
-        public int SimpleParse(List<Card> equation, int number)
+        protected int SimpleParse(List<Card> equation, int number)
         {
             if (equation.Count != 2)
                 throw new IndexOutOfRangeException();
@@ -113,7 +113,7 @@ namespace MathsTutor
             }
         }
 
-        public int ComplexParse(List<Card> equation)
+        protected int ComplexParse(List<Card> equation)
         {
             // Parse Longer equations using D&C
             if (equation.Count != 5)

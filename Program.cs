@@ -31,7 +31,13 @@
                     Console.WriteLine("What name would you like to lookup?");
                     Console.WriteLine("Don't enter anything if you want to see the whole Stats Board");
                     string? name = Console.ReadLine();
-                    app.ShowStats(name);
+                    try
+                    {
+                        app.ShowStats(name);
+                    }catch
+                    {
+                        Console.WriteLine("Failed dispay stats. Something went wrong.");
+                    }
                 }
             }
 

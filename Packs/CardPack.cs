@@ -2,7 +2,7 @@
 
 namespace MathsTutor.Packs
 {
-    internal class CardPack: Pack, IPack
+    internal class CardPack: Pack
     {
         static private List<Card> cards = new List<Card>();
         static private List<Card> discard = new List<Card>();

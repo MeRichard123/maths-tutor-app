@@ -56,7 +56,13 @@ namespace MathsTutor
                     fileSeparator = '/';
                     break;
             }
-            this.statsFileName = this.FileHandler();
+            try
+            {
+                this.statsFileName = this.FileHandler();
+            }catch
+            {
+                Console.WriteLine("Failed to Get file path");
+            }
         }
 
         private string FileHandler()
@@ -93,6 +99,7 @@ namespace MathsTutor
                     }
                     catch (Exception ex) {
                         Console.WriteLine(ex.ToString());
+                        throw;
                     }
                 }
             }
@@ -111,18 +118,24 @@ namespace MathsTutor
             try
             {
                 name = name.ToLower();
-                // create a FileStream so we can open in Append Mode
-                FileStream fs = new FileStream(this.statsFileName, FileMode.Append, FileAccess.Write);
-                StreamWriter sw = new StreamWriter(fs);
-                // get current date ans store when the user got that score. 
-                string currentTime = DateTime.Now.ToString("G");
-                sw.WriteLine($"{name} - {currentTime} - {score}");
-                // discard the stream writer
-                sw.Close();
+                if (name.Length >= 1)
+                {
+
+                    // create a FileStream so we can open in Append Mode
+                    FileStream fs = new FileStream(this.statsFileName, FileMode.Append, FileAccess.Write);
+                    StreamWriter sw = new StreamWriter(fs);
+                    // get current date ans store when the user got that score. 
+                    string currentTime = DateTime.Now.ToString("G");
+                    sw.WriteLine($"{name} - {currentTime} - {score}");
+                    // discard the stream writer
+                    sw.Close();
+                } 
+                // other wise just don't write the file.
 
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                throw;
             }
         }
 
@@ -135,24 +148,31 @@ namespace MathsTutor
         /// </param>
         public void ShowStats(string? name)
         {
-            string[] stats = File.ReadAllLines(statsFileName);
-            if (name is not null && name != "")
+            try
             {
-                Console.WriteLine($"\nStatistics for {name}\n");
-                foreach (string stat in stats)
+                string[] stats = File.ReadAllLines(statsFileName);
+                if (name is not null && name != "")
                 {
-                    if (stat.StartsWith(name.ToLower()))
+                    Console.WriteLine($"\nStatistics for {name}\n");
+                    foreach (string stat in stats)
+                    {
+                        if (stat.StartsWith(name.ToLower()))
+                        {
+                            Console.WriteLine(stat);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (string stat in stats)
                     {
                         Console.WriteLine(stat);
                     }
                 }
-            }
-            else
+            }catch(Exception ex)
             {
-                foreach (string stat in stats)
-                {
-                    Console.WriteLine(stat);
-                }
+                Console.WriteLine(ex.Message);
+                throw;
             }
         }
         
@@ -332,7 +352,13 @@ namespace MathsTutor
                         if (name is not null)
                         {
                             string userScore = $"{correctAnswers}/{simpleQuestionsAsked + complexQuestionsAsked}, {simpleQuestionsAsked} Simple and {complexQuestionsAsked} Complex";
-                            WriteStatsToFile(userScore, name);
+                            try
+                            {
+                                WriteStatsToFile(userScore, name);
+                            } catch
+                            {
+                                Console.WriteLine("Failed to Write to file");
+                            }
                         }
 
                         break;
