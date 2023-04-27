@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Reflection;
 using MathsTutor.Cards;
 using MathsTutor.Packs;
@@ -39,7 +38,7 @@ namespace MathsTutor
             // unary operators are not supported.
             List<Card> cards = this.cards.Deal(10);
             Debug.Assert(cards.Count == 0, "Deal should not have returned cards");
-            Console.WriteLine("Testing Deal Method with Even number: Test Passed");
+            Console.WriteLine("Testing Deal Method with Even number deals nothing: Test Passed");
         }
 
         public void Test_EvaluateExpressionThree()
@@ -72,6 +71,7 @@ namespace MathsTutor
             }
 
             Debug.Assert(app.EvaluateExpression(eq, answer).Item1, "Maths Parser did the maths wrong");
+            Console.WriteLine("Testing Expression Evaluation: Test Passed");
         }
 
         public void Test_Shuffle()

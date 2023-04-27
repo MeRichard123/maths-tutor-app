@@ -2,16 +2,9 @@
 using MathsTutor.Cards;
 using System.Text;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace MathsTutor
 {
-    enum OperatingSystem
-    {
-        Windows,
-        Linux,
-        OSX,
-    }
     internal class MathsApp: MathsParser
     {
         private CardPack cardPack;
@@ -19,43 +12,13 @@ namespace MathsTutor
         private int simpleQuestionsAsked = 0;
         private int complexQuestionsAsked = 0;
         private string statsFileName;
-        private char fileSeparator = '\\';
 
-        // there is probably a better way to do this but Unix and Windows use different 
-        // file separators so if anyone running this is on a different OS to me it will break
-        // so we ensure it doesn't.
-        public static OperatingSystem GetOperatingSystem()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                return OperatingSystem.OSX;
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                return OperatingSystem.Linux;
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return OperatingSystem.Windows;
-
-            throw new Exception("Cannot determine operating system!");
-        }
         public MathsApp()
         {
             // initialise pack and shuffle it
             this.cardPack = new CardPack();
             this.cardPack.Shuffle();
             // deal with stats file stuff
-            OperatingSystem OS = GetOperatingSystem();
-            
-            // change file endings based on running OS
-            switch(OS)
-            {
-                case OperatingSystem.Windows:
-                    fileSeparator = '\\';
-                    break;
-                case OperatingSystem.OSX:
-                case OperatingSystem.Linux:
-                    fileSeparator = '/';
-                    break;
-            }
             try
             {
                 this.statsFileName = this.FileHandler();
@@ -70,6 +33,7 @@ namespace MathsTutor
             // REFERENCE: https://github.com/MeRichard123/Algorithms-Complexity-RoadTraffic-Analysis
             // taking some of this from my Alogorithms and Complexity assigment for parsing the file path
             string currentDir = Directory.GetCurrentDirectory();
+            char fileSeparator = Path.DirectorySeparatorChar;
             // null checks 
             if (Directory.GetParent(currentDir) is not null && currentDir is not null)
             {
