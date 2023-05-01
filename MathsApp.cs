@@ -117,6 +117,8 @@ namespace MathsTutor
                 string[] stats = File.ReadAllLines(statsFileName);
                 if (name is not null && name != "")
                 {
+                    // detemine if the user entered a name 
+                    // and dispaly accordingly
                     Console.WriteLine($"\nStatistics for {name}\n");
                     foreach (string stat in stats)
                     {
@@ -225,6 +227,7 @@ namespace MathsTutor
                 // error handling for the userinput 
                 Console.Write("> ");
                 option = Console.ReadLine();
+                // read and validate input 
                 if (option is not null && int.TryParse(option, out optionValue)){
                     if (optionValue >= 1 && optionValue < 5)
                     {
@@ -324,7 +327,6 @@ namespace MathsTutor
                                 Console.WriteLine("Failed to Write to file");
                             }
                         }
-
                         break;
                 }
             }     
